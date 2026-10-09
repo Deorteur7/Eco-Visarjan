@@ -1,0 +1,39 @@
+{
+  "name": "ecovisarjan",
+  "version": "1.0.0",
+  "private": true,
+  "description": "EcoVisarjan: guiding Ganesh idol immersion and festival waste to safer, designated options in Hyderabad.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c red,yellow \"npm run dev -w server\" \"npm run dev -w client\"",
+    "dev:all": "concurrently -k -n api,web,ml -c red,yellow,green \"npm run dev -w server\" \"npm run dev -w client\" \"npm run ml:dev\"",
+    "build": "npm run build -w client",
+    "start": "npm run start -w server",
+    "test": "npm run test -w server",
+    "lint": "npm run lint -w client && npm run lint -w server",
+    "db:create": "npm run db:create -w server",
+    "db:seed": "npm run db:seed -w server",
+    "db:import": "npm run db:import -w server --",
+    "db:seed-demo-activity": "npm run db:seed-demo-activity -w server",
+    "ml:setup": "node scripts/ml.mjs setup",
+    "ml:dev": "node scripts/ml.mjs dev",
+    "ml:test": "node scripts/ml.mjs test"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
+  },
+  "overrides": {
+    "node-domexception": "npm:@nolyfill/domexception@^1.0.28"
+  },
+  "allowScripts": {
+    "@google/genai@2.28.0": true,
+    "protobufjs@7.6.6": true
+  }
+}

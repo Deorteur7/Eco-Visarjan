@@ -1,0 +1,14 @@
+[
+  {
+    "id": "official-flower-example-1",
+    "name": "REPLACE WITH OFFICIAL COLLECTION POINT NAME",
+    "latitude": 17.3850,
+    "longitude": 78.4867,
+    "area": "REPLACE",
+    "isActive": true,
+    "source": "REPLACE with the notice name",
+    "sourceUrl": "https://example.org/replace-with-source-link",
+    "coordinateAccuracy": "SURVEYED",
+    "verification": "OFFICIAL_IMPORT"
+  }
+]

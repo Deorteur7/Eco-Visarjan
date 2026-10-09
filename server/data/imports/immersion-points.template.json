@@ -1,0 +1,18 @@
+[
+  {
+    "id": "official-example-1",
+    "name": "REPLACE WITH OFFICIAL SITE NAME",
+    "latitude": 17.3850,
+    "longitude": 78.4867,
+    "area": "REPLACE",
+    "type": "ARTIFICIAL_POND",
+    "isArtificialPond": true,
+    "maxIdolSizeFt": null,
+    "allowedMaterials": null,
+    "isActive": true,
+    "source": "REPLACE with the notice name, e.g. 'GHMC immersion arrangements notice, <date>'",
+    "sourceUrl": "https://example.org/replace-with-source-link",
+    "coordinateAccuracy": "SURVEYED",
+    "verification": "OFFICIAL_IMPORT"
+  }
+]
