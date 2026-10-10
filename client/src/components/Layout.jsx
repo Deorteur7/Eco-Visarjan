@@ -50,22 +50,6 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      <footer className="border-t border-line bg-white">
-        <div className="mx-auto max-w-6xl space-y-2 px-4 py-5 text-xs text-muted">
-          <p>
-            EcoVisarjan is a hackathon prototype. Locations marked as press-named have approximate map
-            positions, and demo placeholders are not real facilities. Always follow official municipal and
-            police advisories on immersion days.
-          </p>
-          <p>
-            Map data &copy;{' '}
-            <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">
-              OpenStreetMap contributors
-            </a>
-            . Routing by OSRM or OpenRouteService.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }

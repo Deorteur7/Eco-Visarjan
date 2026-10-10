@@ -354,6 +354,3 @@ Errors are always `{ "error": { "code", "message", "details?" } }`.
 * Rate limits are per server instance (in-memory).
 * English only.
 
-## Credits
-
-Map data (c) OpenStreetMap contributors. Routing: OSRM / OpenRouteService. Maps: Leaflet. Vision: Google Gemini.

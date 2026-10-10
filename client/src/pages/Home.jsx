@@ -45,16 +45,6 @@ export default function Home() {
           ))}
         </ol>
       </section>
-
-      <section aria-labelledby="honest" className="rounded-xl border border-turmeric/60 bg-turmeric-soft/50 p-5">
-        <h2 id="honest" className="text-xl">Honest about our data</h2>
-        <ul className="mt-2 list-disc space-y-1 pl-5 text-sm">
-          <li>Immersion sites are labelled by source. Lakes named in press coverage have approximate map positions.</li>
-          <li>Anything marked &quot;Demo placeholder&quot; is fictional and exists only to demonstrate the flow.</li>
-          <li>The pollution estimate is a relative index from a model trained on synthetic data, not measured water quality.</li>
-          <li>Impact figures are labelled &quot;Prototype / estimated impact&quot; and are never mixed with government statistics.</li>
-        </ul>
-      </section>
     </div>
   );
 }
