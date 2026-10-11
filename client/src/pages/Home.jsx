@@ -12,10 +12,12 @@ const STEPS = [
 export default function Home() {
   return (
     <div className="space-y-10">
-      <section className="rounded-xl border border-line bg-white p-6 sm:p-10">
+      <section className="px-1 py-6 sm:py-12 lg:pl-16">
         <p className="text-sm font-semibold uppercase tracking-wide text-kumkum">Hyderabad, Ganesh Chaturthi</p>
-        <h1 className="mt-2 max-w-3xl text-3xl text-ink sm:text-5xl">Celebrate Ganesh Chaturthi. Protect the water.</h1>
-        <p className="mt-4 max-w-2xl text-lg text-muted">
+        <h1 className="mt-2 max-w-3xl text-4xl text-ink sm:text-6xl">
+          Celebrate Ganesh Chaturthi. <span className="text-kumkum">Protect the water.</span>
+        </h1>
+        <p className="mt-4 max-w-2xl text-lg text-ink/80">
           Idols made of plaster of Paris, along with paints, plastic and flowers, pollute the city&apos;s lakes.
           EcoVisarjan helps you choose a safer way to immerse your idol and to dispose of festival waste.
         </p>
@@ -30,7 +32,7 @@ export default function Home() {
       </section>
 
       <section aria-labelledby="how">
-        <h2 id="how" className="text-2xl">How it works</h2>
+        <h2 id="how" className="inline-block rounded-md bg-cream/90 px-2 text-2xl">How it works</h2>
         <ol className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {STEPS.map((step, index) => (
             <li key={step.title} className="card flex gap-3">

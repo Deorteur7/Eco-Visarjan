@@ -10,3 +10,6 @@ __pycache__/
 .pytest_cache/
 *.log
 .DS_Store
+
+# MapLibre worker files are copied here on install
+client/public/maplibre-gl-*.mjs

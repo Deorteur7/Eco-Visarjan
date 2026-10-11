@@ -1,10 +1,10 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router';
 import LocationCard from '../components/LocationCard.jsx';
 import MapView from '../components/MapView.jsx';
 import Recommendation from '../components/Recommendation.jsx';
 import SiteDetail from '../components/SiteDetail.jsx';
-import { LEGEND_COLORS } from '../components/markers.js';
+import { PIN_COLORS } from '../components/Pins.jsx';
 import { EmptyState, ErrorNotice, InfoNotice, Spinner, VerificationBadge } from '../components/ui.jsx';
 import { useSession } from '../context/SessionContext.jsx';
 import { useAsync } from '../hooks/useAsync.js';
@@ -13,15 +13,15 @@ import { DISTANCE_OPTIONS, MATERIALS } from '../lib/constants.js';
 import { formatDistance } from '../lib/format.js';
 
 const LAYER_DEFS = [
-  { key: 'immersion', label: 'Immersion points (lakes and tanks)', color: LEGEND_COLORS.immersion },
-  { key: 'artificial', label: 'Artificial and baby ponds', color: LEGEND_COLORS.artificial },
-  { key: 'flower', label: 'Flower disposal points', color: LEGEND_COLORS.flower },
-  { key: 'water', label: 'Sensitive water bodies', color: LEGEND_COLORS.water },
-  { key: 'user', label: 'Your location', color: LEGEND_COLORS.user },
+  { key: 'immersion', label: 'Immersion points (lakes and tanks)', color: PIN_COLORS.immersion },
+  { key: 'artificial', label: 'Artificial and baby ponds', color: PIN_COLORS.artificial },
+  { key: 'flower', label: 'Flower disposal points', color: PIN_COLORS.flower },
+  { key: 'water', label: 'Sensitive water bodies', color: PIN_COLORS.water },
+  { key: 'user', label: 'Your location', color: PIN_COLORS.user },
 ];
 
 export default function MapPage() {
-  const { idol, location } = useSession();
+  const { idol, location, setLocation } = useSession();
   const [params] = useSearchParams();
   const [tab, setTab] = useState(params.get('tab') === 'flower' ? 'flower' : 'immersion');
   const [layers, setLayers] = useState({ immersion: true, artificial: true, flower: true, water: true, user: true });
@@ -64,7 +64,14 @@ export default function MapPage() {
     if (value?.kind === 'flower') setTab('flower');
     else if (value?.kind === 'immersion') setTab('immersion');
   }, []);
-  const onRoute = useCallback((value) => setRoute(value), []);
+  const mapBoxRef = useRef(null);
+  const onRoute = useCallback((value) => {
+    setRoute(value);
+    // On a phone the map sits above the details, so bring it into view to show the path.
+    if (value && window.matchMedia('(max-width: 1023px)').matches) {
+      mapBoxRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, []);
 
   const toggle = (key) => setLayers((current) => ({ ...current, [key]: !current[key] }));
   const listError = immersion.error || flower.error;
@@ -84,8 +91,8 @@ export default function MapPage() {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_24rem]">
-        <div className="space-y-3">
-          <div className="h-[52dvh] min-h-80 overflow-hidden rounded-xl border border-line lg:h-[calc(100dvh-15rem)]">
+        <div className="space-y-3 lg:sticky lg:top-24 lg:self-start">
+          <div ref={mapBoxRef} className="h-[52dvh] min-h-80 scroll-mt-4 overflow-hidden sm:scroll-mt-24 rounded-xl border border-line lg:h-[calc(100dvh-17rem)]">
             <MapView
               immersion={immersionItems}
               flower={flowerItems}
@@ -95,6 +102,7 @@ export default function MapPage() {
               selected={selected}
               route={route}
               onSelect={select}
+              onLocate={(position) => setLocation({ ...position, source: 'GPS', label: 'Your location' })}
             />
           </div>
           <fieldset className="card">

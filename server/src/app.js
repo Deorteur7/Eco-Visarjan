@@ -19,8 +19,11 @@ export function createApp() {
       contentSecurityPolicy: {
         directives: {
           ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-          'img-src': ["'self'", 'data:', 'blob:', 'https://tile.openstreetmap.org', 'https://*.tile.openstreetmap.org'],
-          'connect-src': ["'self'"],
+          // Map: OpenFreeMap vector style and tiles, with OpenStreetMap raster tiles as the fallback.
+          'img-src': ["'self'", 'data:', 'blob:', 'https://tiles.openfreemap.org', 'https://tile.openstreetmap.org'],
+          'connect-src': ["'self'", 'https://tiles.openfreemap.org', 'https://tile.openstreetmap.org'],
+          // MapLibre runs its tile worker from our own server (and from blob URLs).
+          'worker-src': ["'self'", 'blob:'],
         },
       },
     }),

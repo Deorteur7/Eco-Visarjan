@@ -133,6 +133,17 @@ Optional, more reliable: a free OpenRouteService key.
 
 If both are unreachable the app shows a clearly labelled straight-line estimate instead of failing. For production, self-host OSRM or use a paid routing plan.
 
+### 3.3b Map (MapLibre + mapcn)
+
+The map uses [mapcn](https://github.com/AnmolSaini16/mapcn) (MIT), which is a set of React components on top of **MapLibre GL**. The component is copied into the project at `client/src/components/ui/map.tsx` (licence: `MAPCN_LICENSE.txt` beside it), so there is nothing extra to install or configure.
+
+* **Basemap:** [OpenFreeMap](https://openfreemap.org) "positron" style (OpenStreetMap data, free, no API key). To use a different MapLibre style (MapTiler, Stadia, self-hosted), create `client/.env` containing `VITE_MAP_STYLE_URL=https://your-style-url`, and add that host to `img-src` and `connect-src` in `server/src/app.js`.
+* **Automatic fallback:** if the vector style cannot be loaded (host unreachable, blocked), the map switches to plain OpenStreetMap raster tiles.
+* **Worker files:** MapLibre needs two worker files. They are copied from `node_modules` into `client/public` automatically after `npm install` and before `npm run dev` / `npm run build` (`scripts/copy-maplibre-worker.mjs`). They are not committed to git.
+* **Icons:** drawn in `client/src/components/Pins.jsx`: temple pin (lakes and tanks), waves pin (artificial and baby ponds), flower pin (flower disposal), water-drop (sensitive water bodies), pulsing dot (you).
+* **Route preview:** after "Get directions" the full path is drawn, a dot travels from your location to the site, and "Replay preview" plays it again.
+* **Usage note:** the OpenFreeMap public service is free for normal use. For heavy production traffic, consider a paid tile provider or self-hosting.
+
 ### 3.4 Loading real, verified locations
 
 The shipped seed contains **no officially verified coordinates** (see section 6). To load real data from a GHMC / HYDRAA / municipal notice:
@@ -197,7 +208,7 @@ npm start          # open http://localhost:8080
 ## 5. Architecture
 
 ```
-React (Vite, Tailwind, Leaflet)
+React (Vite, Tailwind, MapLibre GL via mapcn)
         |  /api  (Vite proxy in dev, same origin in production)
 Express REST API  (zod validation, rate limits, helmet)
    Services
@@ -338,7 +349,8 @@ Errors are always `{ "error": { "code", "message", "details?" } }`.
 | `AccessDeniedException` | The IAM user or role lacks DynamoDB permissions (section 3.2) |
 | Location button does nothing on a deployed site | Geolocation needs HTTPS. Or pick an area from the dropdown |
 | Directions show "Straight-line estimate" | The routing server was unreachable. Retry, add an `ORS_API_KEY`, or check your network |
-| Map tiles blank | No internet access to tile.openstreetmap.org |
+| Map stays blank or shows a spinner | No internet access to tiles.openfreemap.org. After a few seconds it falls back to OpenStreetMap tiles. Check your network, VPN or firewall |
+| Map shows an error about the worker | Run `npm install` again (it copies the MapLibre worker files), or run `node scripts/copy-maplibre-worker.mjs` |
 | Data disappears on restart | You are on `DATA_STORE=memory`. Use DynamoDB |
 
 ---
@@ -354,3 +366,6 @@ Errors are always `{ "error": { "code", "message", "details?" } }`.
 * Rate limits are per server instance (in-memory).
 * English only.
 
+## Credits
+
+Map data (c) OpenStreetMap contributors. Basemap: OpenFreeMap. Maps: MapLibre GL and mapcn (MIT). Routing: OSRM / OpenRouteService. Vision: Google Gemini.

@@ -1,3 +1,4 @@
+import path from 'node:path';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
@@ -8,11 +9,15 @@ const API_TARGET = process.env.VITE_DEV_API_TARGET ?? 'http://localhost:8080';
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  resolve: {
+    // "@/..." points at client/src (used by the mapcn map component).
+    alias: { '@': path.resolve(import.meta.dirname, 'src') },
+  },
   server: {
     port: 5173,
     proxy: { '/api': { target: API_TARGET, changeOrigin: true } },
   },
   build: {
-    chunkSizeWarningLimit: 800,
+    chunkSizeWarningLimit: 1200, // MapLibre GL is a large library
   },
 });

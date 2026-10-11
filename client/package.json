@@ -7,17 +7,19 @@
     "node": ">=22.22.0"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "node ../scripts/copy-maplibre-worker.mjs && vite",
+    "build": "node ../scripts/copy-maplibre-worker.mjs && vite build",
     "preview": "vite preview",
     "lint": "eslint ."
   },
   "dependencies": {
-    "leaflet": "^1.9.4",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.55.0",
+    "maplibre-gl": "^6.13.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "react-leaflet": "^5.0.0",
-    "react-router": "^8.4.0"
+    "react-router": "^8.4.0",
+    "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

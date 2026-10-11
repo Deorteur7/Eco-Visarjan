@@ -24,16 +24,13 @@
     "db:seed-demo-activity": "npm run db:seed-demo-activity -w server",
     "ml:setup": "node scripts/ml.mjs setup",
     "ml:dev": "node scripts/ml.mjs dev",
-    "ml:test": "node scripts/ml.mjs test"
+    "ml:test": "node scripts/ml.mjs test",
+    "postinstall": "node scripts/copy-maplibre-worker.mjs"
   },
   "devDependencies": {
     "concurrently": "^10.0.6"
   },
   "overrides": {
     "node-domexception": "npm:@nolyfill/domexception@^1.0.28"
-  },
-  "allowScripts": {
-    "@google/genai@2.28.0": true,
-    "protobufjs@7.6.6": true
   }
 }
