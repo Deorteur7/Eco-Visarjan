@@ -134,7 +134,7 @@ export default function Risk() {
                 </ul>
               </div>
             )}
-            <InfoNotice title="How to read this">{result.disclaimer}</InfoNotice>
+            
           </div>
         )}
       </div>

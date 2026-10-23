@@ -35,6 +35,8 @@ const FALLBACK_STYLE = {
 const STYLE_TIMEOUT_MS = 8000;
 const PREVIEW_DURATION_MS = 3500; // length of the animated route preview
 const FIT_PADDING = 60;
+// Flower collection points are numerous, so keep the wider map readable.
+const FLOWER_PIN_MIN_ZOOM = 12;
 // -----------------------------------------------------------------------------
 
 const CENTER = [HYDERABAD_CENTER[1], HYDERABAD_CENTER[0]]; // MapLibre uses [longitude, latitude]
@@ -156,6 +158,7 @@ export default function MapView({
 }) {
   const [styleFailed, setStyleFailed] = useState(false);
   const [replayKey, setReplayKey] = useState(0);
+  const [zoom, setZoom] = useState(DEFAULT_ZOOM);
 
   // Server geometry is [lat, lng]; MapLibre wants [lng, lat].
   const routeCoords = useMemo(
@@ -169,7 +172,13 @@ export default function MapView({
 
   return (
     <div className="relative h-full w-full">
-      <MapCanvas center={CENTER} zoom={DEFAULT_ZOOM} theme="light" styles={styles}>
+      <MapCanvas
+        center={CENTER}
+        zoom={DEFAULT_ZOOM}
+        theme="light"
+        styles={styles}
+        onViewportChange={(viewport) => setZoom(viewport.zoom)}
+      >
         <MapController
           user={user}
           selected={selected?.point}
@@ -199,7 +208,7 @@ export default function MapView({
             </MapMarker>
           ))}
 
-        {layers.flower &&
+        {layers.flower && zoom >= FLOWER_PIN_MIN_ZOOM &&
           flower.map((point) => (
             <MapMarker key={point.id} longitude={point.longitude} latitude={point.latitude} anchor="bottom" onClick={() => onSelect({ kind: 'flower', point })}>
               <MarkerContent>

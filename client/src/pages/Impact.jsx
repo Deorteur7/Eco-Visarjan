@@ -32,7 +32,7 @@ export default function Impact() {
   return (
     <div className="space-y-8">
       <PageHeading title="Environmental impact">
-        Three separate sections: what this app has recorded, simulated demo data (if loaded), and statistics reported by
+        Three separate sections: what this app has recorded, loaded data, and statistics reported by
         authorities. They are never added together.
       </PageHeading>
 

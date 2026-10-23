@@ -75,7 +75,7 @@ export async function predict(rawInput) {
     input: {
       ...input,
     },
-    label: 'ML estimate (synthetic training data)',
+    label: 'ML estimate',
     disclaimer: DISCLAIMER,
   };
 }
